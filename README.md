@@ -47,7 +47,7 @@ In local development each package runs on its own port (shell `:3000`, analytics
 
 Two separate GitHub Actions workflows, matching the "independently built" story:
 
-- **[ci.yml](.github/workflows/ci.yml)** runs on every pull request and every push to a non-`main` branch. It lints (type-checks) and builds each package in its own matrix job — `shell`, `analytics-remote`, `notes-remote` — so one remote's failure doesn't hide another's, and each package's status shows up as its own check on the PR.
+- **[ci.yml](.github/workflows/ci.yml)** runs on every pull request targeting `main`. It lints (type-checks) and builds each package in its own matrix job — `shell`, `analytics-remote`, `notes-remote` — so one remote's failure doesn't hide another's, and each package's status shows up as its own check on the PR.
 - **[deploy.yml](.github/workflows/deploy.yml)** runs only on push to `main` (or manual dispatch): it lints and builds everything, assembles the combined site, and deploys to GitHub Pages.
 
 Changes land via a feature branch and a pull request; once `ci.yml` is green, the PR is merged into `main`, which triggers `deploy.yml`.
