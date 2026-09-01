@@ -1,0 +1,32 @@
+.pc-tab {
+  transition: border-color 0.12s ease, color 0.12s ease;
+}
+
+.pc-tab:hover {
+  border-color: #58a6ff;
+  color: #e6edf3;
+}
+
+.pc-tab.pc-tab-active:hover {
+  color: #58a6ff;
+}
+
+.pc-dropzone {
+  transition: border-color 0.12s ease;
+}
+
+.pc-dropzone:hover {
+  border-color: #58a6ff;
+}
+
+.pc-primary-button:not(:disabled) {
+  transition: background-color 0.12s ease;
+}
+
+.pc-primary-button:not(:disabled):hover {
+  background: #388bfd;
+}
+
+.pc-remove-button:hover:not(:disabled) {
+  color: #e6edf3;
+}

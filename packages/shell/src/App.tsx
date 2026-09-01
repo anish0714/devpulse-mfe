@@ -2,6 +2,7 @@ import { lazy, Suspense, useState } from "react";
 import type { ComponentType, CSSProperties } from "react";
 import RemoteErrorBoundary from "./RemoteErrorBoundary";
 import Introduction from "./Introduction";
+import "./hover.css";
 
 const PdfConversionWidget = lazy(() => import("pdfConversion/Widget"));
 const PdfManipulationWidget = lazy(() => import("pdfManipulation/Widget"));
@@ -77,6 +78,7 @@ export default function App() {
                 key={section.key}
                 type="button"
                 onClick={() => setActive(section.key)}
+                className={`dp-nav-item${active === section.key ? " dp-nav-item-active" : ""}`}
                 style={{
                   ...styles.navItem,
                   ...(active === section.key ? styles.navItemActive : {}),
@@ -98,10 +100,11 @@ export default function App() {
             />
           ) : (
             <>
-              <p style={styles.sourceBadge}>
+              <div style={styles.sourceBadge}>
+                <span style={styles.sourceBadgeDot} />
                 Loading <strong>{current.packageName}</strong> from{" "}
                 <code style={styles.code}>{current.url}</code>
-              </p>
+              </div>
               <RemoteErrorBoundary remoteName={current.packageName}>
                 <Suspense fallback={<div style={styles.loading}>Loading {current.label}…</div>}>
                   <current.Component />
@@ -113,12 +116,17 @@ export default function App() {
       </div>
 
       <footer style={styles.footer}>
-        <a href="https://github.com/anish0714/devpulse-mfe" style={styles.link}>
+        <a
+          href="https://github.com/anish0714/devpulse-mfe"
+          className="dp-footer-link"
+          style={styles.link}
+        >
           View source
         </a>
         {" · "}
         <a
           href="https://anish0714.github.io/portfolio-website/"
+          className="dp-footer-link"
           style={styles.link}
         >
           Back to portfolio
@@ -173,8 +181,9 @@ const styles: Record<string, CSSProperties> = {
     textAlign: "left",
     background: "transparent",
     border: "none",
+    borderLeft: "3px solid transparent",
     borderRadius: 6,
-    padding: "10px 14px",
+    padding: "10px 14px 10px 11px",
     fontSize: 14,
     fontWeight: 600,
     color: "#8b949e",
@@ -182,6 +191,7 @@ const styles: Record<string, CSSProperties> = {
   },
   navItemActive: {
     background: "rgba(88, 166, 255, 0.12)",
+    borderLeft: "3px solid #58a6ff",
     color: "#58a6ff",
   },
   content: {
@@ -189,10 +199,24 @@ const styles: Record<string, CSSProperties> = {
     padding: "32px 40px",
   },
   sourceBadge: {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 6,
     fontSize: 11,
-    color: "#6e7681",
+    color: "#8b949e",
     fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+    background: "#161b22",
+    border: "1px solid #30363d",
+    borderRadius: 20,
+    padding: "5px 12px",
     marginBottom: 20,
+  },
+  sourceBadgeDot: {
+    width: 6,
+    height: 6,
+    borderRadius: "50%",
+    background: "#3fb950",
+    flexShrink: 0,
   },
   code: {
     color: "#8b949e",

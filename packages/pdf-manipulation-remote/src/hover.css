@@ -1,0 +1,49 @@
+.pm-tool-button {
+  transition: border-color 0.12s ease, color 0.12s ease, background-color 0.12s ease;
+}
+
+.pm-tool-button:hover:not(:disabled) {
+  border-color: #58a6ff;
+  color: #e6edf3;
+}
+
+.pm-tool-button.pm-tool-button-active:hover:not(:disabled) {
+  color: #58a6ff;
+}
+
+.pm-tool-button.pm-tool-button-danger:hover:not(:disabled) {
+  border-color: #f85149;
+  color: #f85149;
+}
+
+.pm-nav-button {
+  transition: border-color 0.12s ease;
+}
+
+.pm-nav-button:hover:not(:disabled) {
+  border-color: #58a6ff;
+}
+
+.pm-dropzone {
+  transition: border-color 0.12s ease;
+}
+
+.pm-dropzone:hover {
+  border-color: #58a6ff;
+}
+
+.pm-primary-button:not(:disabled) {
+  transition: background-color 0.12s ease;
+}
+
+.pm-primary-button:not(:disabled):hover {
+  background: #388bfd;
+}
+
+.pm-annotation-remove {
+  transition: background-color 0.12s ease;
+}
+
+.pm-annotation-remove:hover {
+  background: #ff7b72;
+}

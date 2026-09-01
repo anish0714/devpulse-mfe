@@ -1,27 +1,54 @@
-# DevPulse — Micro-Frontend Showcase
+# DevPulse — Micro-Frontend Toolbox
 
-A small demo of a real micro-frontend architecture: a **shell** (host) app that composes **independently built** React apps at runtime, using Webpack 5's [Module Federation](https://webpack.js.org/concepts/module-federation/).
+A toolbox of real, browser-based tools (PDF conversion, PDF editing) built as **independently developed, independently deployed** micro-frontends, composed at runtime into one app by a shell host using Webpack 5's [Module Federation](https://webpack.js.org/concepts/module-federation/).
 
 **Live:** https://anish0714.github.io/devpulse-mfe/
 
-## Why this exists
+## What it is
 
-Module Federation lets separate teams ship separate apps — each with its own build, its own deploy, its own release cadence — and have them compose into one product in the browser, with no shared build step and no iframe. This repo is a minimal, working example of that: the shell has no compile-time dependency on the remotes' source code. It only knows a URL and an exposed module name; everything else is resolved at runtime.
+DevPulse is two things at once:
 
-## Structure
+1. **A working set of tools** — convert images/Word docs to PDF, merge PDFs, and edit PDFs (add text, highlight, redact, delete pages) — entirely client-side. No file you touch here is ever uploaded anywhere.
+2. **A demonstration of production-grade micro-frontend architecture** — each tool is its own React app with its own build, its own deploy, and its own CI check, loaded into a shared shell at runtime rather than bundled together at build time.
+
+## Highlights
+
+- **Real utility, not a toy demo** — the tools genuinely convert and edit PDFs, verified against real files, not just UI mockups.
+- **Privacy by construction** — every tool runs 100% in the browser (`pdf-lib`, `pdfjs-dist`, `mammoth`, `jsPDF`), so there's no backend to trust and nothing ever leaves the user's machine.
+- **True runtime composition** — the shell has zero compile-time dependency on any tool's source; it only knows a URL and an exposed module name. A tool can be rebuilt and redeployed on its own schedule without touching the shell or any other tool.
+- **Per-package CI** — each package lints and builds as its own GitHub Actions check, so a failure in one tool doesn't block or hide failures in another.
+- **Trunk-based workflow** — every change ships through a feature branch and PR, merged only once CI is green.
+
+## Tools
+
+### PDF Conversion Tool (`pdf-conversion-remote`)
+An ilovepdf-style converter:
+- **Images → PDF** — combine one or more JPG/PNG images into a single PDF.
+- **Word → PDF** — converts `.docx` files (via `mammoth` → `html2canvas` → `jsPDF`); text and basic formatting carry over.
+- **Merge PDFs** — combine multiple PDFs into one, with drag-free reordering before merging.
+
+### PDF Manipulation Tool (`pdf-manipulation-remote`)
+An in-browser PDF editor built on `pdfjs-dist` (rendering) and `pdf-lib` (export):
+- Add freeform **text** anywhere on a page.
+- **Highlight** or **redact** (visually black out) regions by click-drag.
+- **Delete pages** from the document.
+- **Save & download** a genuinely new, edited PDF — verified by round-tripping saved files back through a PDF parser, not just eyeballed.
+
+## UI
+
+The shell opens on an **Introduction** page that frames the project as a toolbox to use, not just an architecture demo, with cards linking straight into each tool. Every tool lives in a left-hand sidebar; selecting one renders that remote's own widget in the right-hand content pane. The shell itself renders no tool-specific UI — only navigation, the Introduction, and the loading/error states around whichever remote is active.
+
+## Architecture
 
 This is an npm-workspaces monorepo — one repo for convenience, but each package still builds independently and is wired together only via runtime URLs, the same way it would work across separate repos:
 
 ```
 packages/
   shell/                     the host app: left-hand sidebar nav, remote loading,
-                             error boundaries, and an Introduction landing page
-  pdf-conversion-remote/     exposes ./Widget, an ilovepdf-style toolset (images → PDF,
-                             Word → PDF, merge PDFs) — client-side, files never leave
-                             the browser
-  pdf-manipulation-remote/   exposes ./Widget, an in-browser PDF editor: add text,
-                             highlight or redact content, delete pages, and save a
-                             new edited PDF
+                             error boundaries, and the Introduction landing page
+  pdf-conversion-remote/     exposes ./Widget — images → PDF, Word → PDF, merge PDFs
+  pdf-manipulation-remote/   exposes ./Widget — add text, highlight/redact, delete
+                             pages, save an edited PDF
 ```
 
 Each package:
@@ -29,11 +56,7 @@ Each package:
 - builds to its own `dist/`, independent of the others
 - also has a standalone `App.tsx` entry, so visiting a remote's own deployed URL directly still renders something meaningful, not a blank page
 
-## UI
-
-The shell opens on an **Introduction** page describing the project as a toolbox of real, usable tools, with cards linking straight into each one. Every tool is listed in a left-hand sidebar; selecting one renders that remote's own widget in the right-hand content pane — the shell itself renders no tool-specific UI, only navigation and the loading/error states around whichever remote is active.
-
-## How the deploy is wired
+### How the deploy is wired
 
 Deployed as one GitHub Pages site (`/devpulse-mfe/`) assembled from three independent builds:
 
@@ -52,7 +75,7 @@ pdfManipulation: `pdfManipulation@https://anish0714.github.io/devpulse-mfe/remot
 
 In local development each package runs on its own port (shell `:3000`, pdf-conversion `:3003`, pdf-manipulation `:3004`) and the shell points at `localhost` instead — same mechanism, different URLs.
 
-## CI/CD
+### CI/CD
 
 Two separate GitHub Actions workflows, matching the "independently built" story:
 
@@ -70,6 +93,14 @@ npm run dev   # starts shell + both remotes together
 
 Or run a single package: `npm run start --workspace=packages/pdf-manipulation-remote`.
 
-## Tech
+## Tech stack
 
-React 19, TypeScript, Webpack 5 (`ModuleFederationPlugin`), npm workspaces, GitHub Actions, GitHub Pages. `pdf-manipulation-remote` additionally uses `pdfjs-dist` (rendering pages for editing) and `pdf-lib` (writing the edited PDF).
+- **React 19** + **TypeScript**, **Webpack 5** (`ModuleFederationPlugin`) for runtime composition, **npm workspaces** for the monorepo
+- **`pdf-lib`** — creating, merging, and editing PDFs
+- **`pdfjs-dist`** — rendering PDF pages to canvas for the manipulation editor
+- **`mammoth`**, **`html2canvas`**, **`jsPDF`** — Word → PDF conversion
+- **GitHub Actions** (per-package CI, deploy-on-merge) + **GitHub Pages** hosting
+
+## What this project demonstrates
+
+Micro-frontend architecture with genuine runtime composition (not a monorepo pretending to be one); independent build/deploy pipelines per package; browser-only file processing with zero backend; and a standard trunk-based git workflow (feature branch → PR → CI → merge) enforced in practice across every change in this repo's history.

@@ -35,6 +35,7 @@ export default function FileDropZone({ accept, label, onFile }: Props) {
         setIsDragActive(false);
         handleFiles(e.dataTransfer.files);
       }}
+      className="pm-dropzone"
       style={{
         ...styles.dropZone,
         ...(isDragActive ? styles.dropZoneActive : {}),
