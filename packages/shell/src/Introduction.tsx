@@ -36,6 +36,7 @@ export default function Introduction({ tools, onOpenTool }: Props) {
             key={tool.key}
             type="button"
             onClick={() => onOpenTool(tool.key)}
+            className="dp-tool-card"
             style={styles.card}
           >
             <span style={styles.cardTitle}>{tool.label}</span>

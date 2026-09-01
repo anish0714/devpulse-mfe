@@ -38,6 +38,7 @@ export default function FileDropZone({ accept, multiple, label, onFiles }: Props
       }}
       onDragLeave={() => setIsDragActive(false)}
       onDrop={handleDrop}
+      className="pc-dropzone"
       style={{
         ...styles.dropZone,
         ...(isDragActive ? styles.dropZoneActive : {}),

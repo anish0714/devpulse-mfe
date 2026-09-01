@@ -9,6 +9,7 @@ import { downloadBlob, stripExtension } from "./utils/download";
 import { hexToRgbUnit } from "./utils/color";
 import { nextId } from "./annotations";
 import type { Annotation, ToolMode } from "./annotations";
+import "./hover.css";
 
 const DISPLAY_WIDTH = 400;
 
@@ -296,6 +297,7 @@ export default function Widget() {
             <button
               type="button"
               onClick={() => setTool(tool === "text" ? "none" : "text")}
+              className={`pm-tool-button${tool === "text" ? " pm-tool-button-active" : ""}`}
               style={{ ...styles.toolButton, ...(tool === "text" ? styles.toolButtonActive : {}) }}
             >
               Text
@@ -303,6 +305,7 @@ export default function Widget() {
             <button
               type="button"
               onClick={() => setTool(tool === "highlight" ? "none" : "highlight")}
+              className={`pm-tool-button${tool === "highlight" ? " pm-tool-button-active" : ""}`}
               style={{
                 ...styles.toolButton,
                 ...(tool === "highlight" ? styles.toolButtonActive : {}),
@@ -313,6 +316,7 @@ export default function Widget() {
             <button
               type="button"
               onClick={() => setTool(tool === "redact" ? "none" : "redact")}
+              className={`pm-tool-button${tool === "redact" ? " pm-tool-button-active" : ""}`}
               style={{ ...styles.toolButton, ...(tool === "redact" ? styles.toolButtonActive : {}) }}
             >
               Redact
@@ -321,6 +325,7 @@ export default function Widget() {
               type="button"
               onClick={undo}
               disabled={annotations.length === 0}
+              className="pm-tool-button"
               style={styles.toolButton}
             >
               Undo
@@ -329,6 +334,7 @@ export default function Widget() {
               type="button"
               onClick={deleteCurrentPage}
               disabled={remainingPages <= 1}
+              className="pm-tool-button pm-tool-button-danger"
               style={{ ...styles.toolButton, ...styles.toolButtonDanger }}
             >
               Delete page
@@ -358,6 +364,7 @@ export default function Widget() {
               type="button"
               onClick={() => goToPage(pageIndex - 1)}
               disabled={pageIndex === 0}
+              className="pm-nav-button"
               style={{ ...styles.navButton, ...(pageIndex === 0 ? styles.navButtonDisabled : {}) }}
             >
               ← Prev
@@ -370,6 +377,7 @@ export default function Widget() {
               type="button"
               onClick={() => goToPage(pageIndex + 1)}
               disabled={pageIndex === pageCount - 1}
+              className="pm-nav-button"
               style={{
                 ...styles.navButton,
                 ...(pageIndex === pageCount - 1 ? styles.navButtonDisabled : {}),
@@ -430,6 +438,7 @@ export default function Widget() {
                         type="button"
                         onClick={() => removeAnnotation(ann.id)}
                         aria-label="Remove annotation"
+                        className="pm-annotation-remove"
                         style={styles.annotationRemove}
                       >
                         &times;
@@ -454,6 +463,7 @@ export default function Widget() {
                         type="button"
                         onClick={() => removeAnnotation(ann.id)}
                         aria-label="Remove annotation"
+                        className="pm-annotation-remove"
                         style={styles.annotationRemove}
                       >
                         &times;
@@ -485,6 +495,7 @@ export default function Widget() {
               type="button"
               onClick={save}
               disabled={isSaving}
+              className="pm-primary-button"
               style={{ ...styles.primaryButton, ...(isSaving ? styles.primaryButtonDisabled : {}) }}
             >
               {isSaving ? "Saving…" : "Save & download PDF"}
@@ -497,6 +508,7 @@ export default function Widget() {
                 setFileName(null);
                 setAnnotations([]);
               }}
+              className="pm-tool-button"
               style={styles.toolButton}
             >
               Open a different PDF

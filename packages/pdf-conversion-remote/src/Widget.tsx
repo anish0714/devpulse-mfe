@@ -6,6 +6,7 @@ import { jsPDF } from "jspdf";
 import FileDropZone from "./FileDropZone";
 import { styles } from "./styles";
 import { downloadBlob, stripExtension } from "./utils/download";
+import "./hover.css";
 
 const A4_WIDTH_PT = 595.28;
 const A4_HEIGHT_PT = 841.89;
@@ -190,6 +191,7 @@ export default function Widget() {
             key={key}
             type="button"
             onClick={() => selectOperation(key)}
+            className={`pc-tab${operation === key ? " pc-tab-active" : ""}`}
             style={{
               ...styles.tab,
               ...(operation === key ? styles.tabActive : {}),
@@ -223,6 +225,7 @@ export default function Widget() {
                       onClick={() => move(i, -1)}
                       disabled={i === 0}
                       aria-label={`Move ${file.name} up`}
+                      className="pc-remove-button"
                       style={styles.removeButton}
                     >
                       ↑
@@ -232,6 +235,7 @@ export default function Widget() {
                       onClick={() => move(i, 1)}
                       disabled={i === files.length - 1}
                       aria-label={`Move ${file.name} down`}
+                      className="pc-remove-button"
                       style={styles.removeButton}
                     >
                       ↓
@@ -242,6 +246,7 @@ export default function Widget() {
                   type="button"
                   onClick={() => removeFile(i)}
                   aria-label={`Remove ${file.name}`}
+                  className="pc-remove-button"
                   style={styles.removeButton}
                 >
                   &times;
@@ -256,6 +261,7 @@ export default function Widget() {
         type="button"
         onClick={run}
         disabled={!canRun}
+        className="pc-primary-button"
         style={{
           ...styles.primaryButton,
           ...(canRun ? {} : styles.primaryButtonDisabled),

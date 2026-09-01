@@ -1,0 +1,25 @@
+.dp-nav-item {
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.dp-nav-item:hover {
+  background: rgba(139, 148, 158, 0.08);
+  color: #e6edf3;
+}
+
+.dp-nav-item.dp-nav-item-active:hover {
+  background: rgba(88, 166, 255, 0.18);
+}
+
+.dp-tool-card {
+  transition: border-color 0.12s ease, background-color 0.12s ease;
+}
+
+.dp-tool-card:hover {
+  border-color: #58a6ff;
+  background: #1c2129;
+}
+
+.dp-footer-link:hover {
+  text-decoration: underline;
+}
