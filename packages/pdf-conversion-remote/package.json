@@ -1,5 +1,5 @@
 {
-  "name": "analytics-remote",
+  "name": "pdf-conversion-remote",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,11 @@
   },
   "dependencies": {
     "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react-dom": "^19.2.8",
+    "pdf-lib": "^1.17.1",
+    "mammoth": "^1.8.0",
+    "jspdf": "^2.5.2",
+    "html2canvas": "^1.4.1"
   },
   "devDependencies": {
     "@types/react": "^19.2.18",

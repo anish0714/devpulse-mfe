@@ -1,6 +1,6 @@
 # DevPulse — Micro-Frontend Showcase
 
-A small demo of a real micro-frontend architecture: a **shell** (host) app that composes two **independently built** React apps at runtime, using Webpack 5's [Module Federation](https://webpack.js.org/concepts/module-federation/).
+A small demo of a real micro-frontend architecture: a **shell** (host) app that composes **independently built** React apps at runtime, using Webpack 5's [Module Federation](https://webpack.js.org/concepts/module-federation/).
 
 **Live:** https://anish0714.github.io/devpulse-mfe/
 
@@ -14,9 +14,13 @@ This is an npm-workspaces monorepo — one repo for convenience, but each packag
 
 ```
 packages/
-  shell/               the host app: nav, routing between remotes, error boundaries
-  analytics-remote/    remote #1 — exposes ./Widget, an analytics panel with local UI state
-  notes-remote/        remote #2 — exposes ./Widget, a notes list with its own localStorage
+  shell/                     the host app: nav, remote loading, error boundaries
+  pdf-conversion-remote/     exposes ./Widget, an ilovepdf-style toolset (images → PDF,
+                             Word → PDF, merge PDFs) — client-side, files never leave
+                             the browser
+  pdf-manipulation-remote/   exposes ./Widget, an in-browser PDF editor: add text,
+                             highlight or redact content, delete pages, and save a
+                             new edited PDF
 ```
 
 Each package:
@@ -29,25 +33,25 @@ Each package:
 Deployed as one GitHub Pages site (`/devpulse-mfe/`) assembled from three independent builds:
 
 ```
-site/                          <- packages/shell/dist
-site/remotes/analytics/        <- packages/analytics-remote/dist
-site/remotes/notes/            <- packages/notes-remote/dist
+site/                            <- packages/shell/dist
+site/remotes/pdf-conversion/     <- packages/pdf-conversion-remote/dist
+site/remotes/pdf-manipulation/   <- packages/pdf-manipulation-remote/dist
 ```
 
 The shell's production config points at those exact URLs:
 
 ```js
-analytics: `analytics@https://anish0714.github.io/devpulse-mfe/remotes/analytics/remoteEntry.js`
-notes: `notes@https://anish0714.github.io/devpulse-mfe/remotes/notes/remoteEntry.js`
+pdfConversion: `pdfConversion@https://anish0714.github.io/devpulse-mfe/remotes/pdf-conversion/remoteEntry.js`
+pdfManipulation: `pdfManipulation@https://anish0714.github.io/devpulse-mfe/remotes/pdf-manipulation/remoteEntry.js`
 ```
 
-In local development each package runs on its own port (shell `:3000`, analytics `:3001`, notes `:3002`) and the shell points at `localhost` instead — same mechanism, different URLs.
+In local development each package runs on its own port (shell `:3000`, pdf-conversion `:3003`, pdf-manipulation `:3004`) and the shell points at `localhost` instead — same mechanism, different URLs.
 
 ## CI/CD
 
 Two separate GitHub Actions workflows, matching the "independently built" story:
 
-- **[ci.yml](.github/workflows/ci.yml)** runs on every pull request targeting `main`. It lints (type-checks) and builds each package in its own matrix job — `shell`, `analytics-remote`, `notes-remote` — so one remote's failure doesn't hide another's, and each package's status shows up as its own check on the PR.
+- **[ci.yml](.github/workflows/ci.yml)** runs on every pull request targeting `main`. It lints (type-checks) and builds each package in its own matrix job — `shell`, `pdf-conversion-remote`, `pdf-manipulation-remote` — so one remote's failure doesn't hide another's, and each package's status shows up as its own check on the PR.
 - **[deploy.yml](.github/workflows/deploy.yml)** runs only on push to `main` (or manual dispatch): it lints and builds everything, assembles the combined site, and deploys to GitHub Pages.
 
 Changes land via a feature branch and a pull request; once `ci.yml` is green, the PR is merged into `main`, which triggers `deploy.yml`.
@@ -59,8 +63,8 @@ npm install
 npm run dev   # starts shell + both remotes together
 ```
 
-Or run a single package: `npm run start --workspace=packages/analytics-remote`.
+Or run a single package: `npm run start --workspace=packages/pdf-manipulation-remote`.
 
 ## Tech
 
-React 19, TypeScript, Webpack 5 (`ModuleFederationPlugin`), npm workspaces, GitHub Actions, GitHub Pages.
+React 19, TypeScript, Webpack 5 (`ModuleFederationPlugin`), npm workspaces, GitHub Actions, GitHub Pages. `pdf-manipulation-remote` additionally uses `pdfjs-dist` (rendering pages for editing) and `pdf-lib` (writing the edited PDF).

@@ -8,12 +8,12 @@ const PROD_BASE = "https://anish0714.github.io/devpulse-mfe";
 module.exports = (_env, argv) => {
   const isProduction = argv.mode === "production";
 
-  const analyticsUrl = isProduction
-    ? `${PROD_BASE}/remotes/analytics/remoteEntry.js`
-    : "http://localhost:3001/remoteEntry.js";
-  const notesUrl = isProduction
-    ? `${PROD_BASE}/remotes/notes/remoteEntry.js`
-    : "http://localhost:3002/remoteEntry.js";
+  const pdfConversionUrl = isProduction
+    ? `${PROD_BASE}/remotes/pdf-conversion/remoteEntry.js`
+    : "http://localhost:3003/remoteEntry.js";
+  const pdfManipulationUrl = isProduction
+    ? `${PROD_BASE}/remotes/pdf-manipulation/remoteEntry.js`
+    : "http://localhost:3004/remoteEntry.js";
 
   return {
     entry: "./src/index.ts",
@@ -41,8 +41,8 @@ module.exports = (_env, argv) => {
       new ModuleFederationPlugin({
         name: "shell",
         remotes: {
-          analytics: `analytics@${analyticsUrl}`,
-          notes: `notes@${notesUrl}`,
+          pdfConversion: `pdfConversion@${pdfConversionUrl}`,
+          pdfManipulation: `pdfManipulation@${pdfManipulationUrl}`,
         },
         shared: {
           react: { singleton: true, requiredVersion: deps.react },

@@ -2,35 +2,35 @@ import { lazy, Suspense, useState } from "react";
 import type { CSSProperties } from "react";
 import RemoteErrorBoundary from "./RemoteErrorBoundary";
 
-const AnalyticsWidget = lazy(() => import("analytics/Widget"));
-const NotesWidget = lazy(() => import("notes/Widget"));
+const PdfConversionWidget = lazy(() => import("pdfConversion/Widget"));
+const PdfManipulationWidget = lazy(() => import("pdfManipulation/Widget"));
 
 const PROD_BASE = "https://anish0714.github.io/devpulse-mfe";
 const isProduction = process.env.NODE_ENV === "production";
 
 const remotes = {
-  analytics: {
-    label: "Analytics",
-    packageName: "analytics-remote",
+  pdfConversion: {
+    label: "PDF Conversion Tool",
+    packageName: "pdf-conversion-remote",
     url: isProduction
-      ? `${PROD_BASE}/remotes/analytics/remoteEntry.js`
-      : "http://localhost:3001/remoteEntry.js",
-    Component: AnalyticsWidget,
+      ? `${PROD_BASE}/remotes/pdf-conversion/remoteEntry.js`
+      : "http://localhost:3003/remoteEntry.js",
+    Component: PdfConversionWidget,
   },
-  notes: {
-    label: "Notes",
-    packageName: "notes-remote",
+  pdfManipulation: {
+    label: "PDF Manipulation Tool",
+    packageName: "pdf-manipulation-remote",
     url: isProduction
-      ? `${PROD_BASE}/remotes/notes/remoteEntry.js`
-      : "http://localhost:3002/remoteEntry.js",
-    Component: NotesWidget,
+      ? `${PROD_BASE}/remotes/pdf-manipulation/remoteEntry.js`
+      : "http://localhost:3004/remoteEntry.js",
+    Component: PdfManipulationWidget,
   },
 } as const;
 
 type RemoteKey = keyof typeof remotes;
 
 export default function App() {
-  const [active, setActive] = useState<RemoteKey>("analytics");
+  const [active, setActive] = useState<RemoteKey>("pdfConversion");
   const remote = remotes[active];
   const ActiveWidget = remote.Component;
 

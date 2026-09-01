@@ -25,13 +25,13 @@ module.exports = (_env, argv) => {
       ],
     },
     devServer: {
-      port: 3002,
+      port: 3003,
       historyApiFallback: true,
       headers: { "Access-Control-Allow-Origin": "*" },
     },
     plugins: [
       new ModuleFederationPlugin({
-        name: "notes",
+        name: "pdfConversion",
         filename: "remoteEntry.js",
         exposes: {
           "./Widget": "./src/Widget",
