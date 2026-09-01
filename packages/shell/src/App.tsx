@@ -1,6 +1,7 @@
 import { lazy, Suspense, useState } from "react";
-import type { CSSProperties } from "react";
+import type { ComponentType, CSSProperties } from "react";
 import RemoteErrorBoundary from "./RemoteErrorBoundary";
+import Introduction from "./Introduction";
 
 const PdfConversionWidget = lazy(() => import("pdfConversion/Widget"));
 const PdfManipulationWidget = lazy(() => import("pdfManipulation/Widget"));
@@ -8,71 +9,107 @@ const PdfManipulationWidget = lazy(() => import("pdfManipulation/Widget"));
 const PROD_BASE = "https://anish0714.github.io/devpulse-mfe";
 const isProduction = process.env.NODE_ENV === "production";
 
-const remotes = {
-  pdfConversion: {
+interface IntroSection {
+  key: "introduction";
+  kind: "intro";
+  label: string;
+}
+
+interface RemoteSection {
+  key: "pdfConversion" | "pdfManipulation";
+  kind: "remote";
+  label: string;
+  description: string;
+  packageName: string;
+  url: string;
+  Component: ComponentType;
+}
+
+type Section = IntroSection | RemoteSection;
+
+const sections: Section[] = [
+  { key: "introduction", kind: "intro", label: "Introduction" },
+  {
+    key: "pdfConversion",
+    kind: "remote",
     label: "PDF Conversion Tool",
+    description: "Images → PDF, Word → PDF, and merging PDFs — all client-side.",
     packageName: "pdf-conversion-remote",
     url: isProduction
       ? `${PROD_BASE}/remotes/pdf-conversion/remoteEntry.js`
       : "http://localhost:3003/remoteEntry.js",
     Component: PdfConversionWidget,
   },
-  pdfManipulation: {
+  {
+    key: "pdfManipulation",
+    kind: "remote",
     label: "PDF Manipulation Tool",
+    description: "Add text, highlight or redact content, delete pages, and save an edited PDF.",
     packageName: "pdf-manipulation-remote",
     url: isProduction
       ? `${PROD_BASE}/remotes/pdf-manipulation/remoteEntry.js`
       : "http://localhost:3004/remoteEntry.js",
     Component: PdfManipulationWidget,
   },
-} as const;
+];
 
-type RemoteKey = keyof typeof remotes;
+type SectionKey = Section["key"];
 
 export default function App() {
-  const [active, setActive] = useState<RemoteKey>("pdfConversion");
-  const remote = remotes[active];
-  const ActiveWidget = remote.Component;
+  const [active, setActive] = useState<SectionKey>("introduction");
+  const current = sections.find((s) => s.key === active) ?? sections[0];
 
   return (
     <div style={styles.page}>
       <header style={styles.header}>
         <h1 style={styles.title}>DevPulse</h1>
         <p style={styles.subtitle}>
-          A micro-frontend showcase. This shell app is one webpack build; each
-          panel below is a <strong>separately built, separately deployed</strong>{" "}
-          React app, stitched together in the browser at runtime via Webpack
-          Module Federation.
+          A toolbox of browser-based tools, each one a separately built,
+          separately deployed micro-frontend.
         </p>
       </header>
 
-      <nav style={styles.tabs}>
-        {(Object.keys(remotes) as RemoteKey[]).map((key) => (
-          <button
-            key={key}
-            type="button"
-            onClick={() => setActive(key)}
-            style={{
-              ...styles.tab,
-              ...(active === key ? styles.tabActive : {}),
-            }}
-          >
-            {remotes[key].label}
-          </button>
-        ))}
-      </nav>
+      <div style={styles.body}>
+        <aside style={styles.sidebar}>
+          <nav style={styles.nav}>
+            {sections.map((section) => (
+              <button
+                key={section.key}
+                type="button"
+                onClick={() => setActive(section.key)}
+                style={{
+                  ...styles.navItem,
+                  ...(active === section.key ? styles.navItemActive : {}),
+                }}
+              >
+                {section.label}
+              </button>
+            ))}
+          </nav>
+        </aside>
 
-      <p style={styles.sourceBadge}>
-        Loading <strong>{remote.packageName}</strong> from{" "}
-        <code style={styles.code}>{remote.url}</code>
-      </p>
-
-      <div style={styles.content}>
-        <RemoteErrorBoundary remoteName={remote.packageName}>
-          <Suspense fallback={<div style={styles.loading}>Loading {remote.label}…</div>}>
-            <ActiveWidget />
-          </Suspense>
-        </RemoteErrorBoundary>
+        <main style={styles.content}>
+          {current.kind === "intro" ? (
+            <Introduction
+              tools={sections
+                .filter((s): s is RemoteSection => s.kind === "remote")
+                .map((s) => ({ key: s.key, label: s.label, description: s.description }))}
+              onOpenTool={(key) => setActive(key as SectionKey)}
+            />
+          ) : (
+            <>
+              <p style={styles.sourceBadge}>
+                Loading <strong>{current.packageName}</strong> from{" "}
+                <code style={styles.code}>{current.url}</code>
+              </p>
+              <RemoteErrorBoundary remoteName={current.packageName}>
+                <Suspense fallback={<div style={styles.loading}>Loading {current.label}…</div>}>
+                  <current.Component />
+                </Suspense>
+              </RemoteErrorBoundary>
+            </>
+          )}
+        </main>
       </div>
 
       <footer style={styles.footer}>
@@ -98,58 +135,67 @@ const styles: Record<string, CSSProperties> = {
     color: "#e6edf3",
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif",
-    padding: "48px 24px",
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
   },
   header: {
-    maxWidth: 640,
-    textAlign: "center",
-    marginBottom: 32,
+    padding: "28px 32px 20px",
+    borderBottom: "1px solid #21262d",
   },
   title: {
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: 800,
-    margin: "0 0 12px 0",
+    margin: "0 0 6px 0",
   },
   subtitle: {
-    fontSize: 14,
-    lineHeight: 1.6,
+    fontSize: 13,
+    lineHeight: 1.5,
     color: "#8b949e",
     margin: 0,
   },
-  tabs: {
+  body: {
+    flex: 1,
     display: "flex",
-    gap: 8,
-    marginBottom: 16,
+    alignItems: "stretch",
   },
-  tab: {
-    background: "#161b22",
-    border: "1px solid #30363d",
-    color: "#8b949e",
-    borderRadius: 8,
-    padding: "8px 18px",
+  sidebar: {
+    width: 220,
+    flexShrink: 0,
+    borderRight: "1px solid #21262d",
+    padding: "20px 12px",
+  },
+  nav: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 4,
+  },
+  navItem: {
+    textAlign: "left",
+    background: "transparent",
+    border: "none",
+    borderRadius: 6,
+    padding: "10px 14px",
     fontSize: 14,
     fontWeight: 600,
+    color: "#8b949e",
     cursor: "pointer",
   },
-  tabActive: {
-    border: "1px solid #58a6ff",
+  navItemActive: {
+    background: "rgba(88, 166, 255, 0.12)",
     color: "#58a6ff",
+  },
+  content: {
+    flex: 1,
+    padding: "32px 40px",
   },
   sourceBadge: {
     fontSize: 11,
     color: "#6e7681",
     fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-    marginBottom: 24,
-    textAlign: "center",
+    marginBottom: 20,
   },
   code: {
     color: "#8b949e",
-  },
-  content: {
-    marginBottom: 32,
   },
   loading: {
     fontSize: 13,
@@ -159,6 +205,9 @@ const styles: Record<string, CSSProperties> = {
   footer: {
     fontSize: 12,
     color: "#6e7681",
+    textAlign: "center",
+    padding: "16px 24px",
+    borderTop: "1px solid #21262d",
   },
   link: {
     color: "#58a6ff",
