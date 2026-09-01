@@ -19,10 +19,12 @@ export default function App() {
             fontSize: 12,
             color: "#8b949e",
             marginBottom: 12,
+            maxWidth: 480,
           }}
         >
-          You're viewing the notes-remote micro-frontend standalone, at its
-          own deployed URL. It normally renders inside the{" "}
+          You're viewing the pdf-manipulation-remote micro-frontend
+          standalone, at its own deployed URL. It normally renders inside
+          the{" "}
           <a
             href="https://anish0714.github.io/devpulse-mfe/"
             style={{ color: "#58a6ff" }}

@@ -25,13 +25,13 @@ module.exports = (_env, argv) => {
       ],
     },
     devServer: {
-      port: 3001,
+      port: 3004,
       historyApiFallback: true,
       headers: { "Access-Control-Allow-Origin": "*" },
     },
     plugins: [
       new ModuleFederationPlugin({
-        name: "analytics",
+        name: "pdfManipulation",
         filename: "remoteEntry.js",
         exposes: {
           "./Widget": "./src/Widget",
