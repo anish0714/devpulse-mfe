@@ -14,7 +14,8 @@ This is an npm-workspaces monorepo — one repo for convenience, but each packag
 
 ```
 packages/
-  shell/                     the host app: nav, remote loading, error boundaries
+  shell/                     the host app: left-hand sidebar nav, remote loading,
+                             error boundaries, and an Introduction landing page
   pdf-conversion-remote/     exposes ./Widget, an ilovepdf-style toolset (images → PDF,
                              Word → PDF, merge PDFs) — client-side, files never leave
                              the browser
@@ -27,6 +28,10 @@ Each package:
 - has its own `webpack.config.js` and `ModuleFederationPlugin` config
 - builds to its own `dist/`, independent of the others
 - also has a standalone `App.tsx` entry, so visiting a remote's own deployed URL directly still renders something meaningful, not a blank page
+
+## UI
+
+The shell opens on an **Introduction** page describing the project as a toolbox of real, usable tools, with cards linking straight into each one. Every tool is listed in a left-hand sidebar; selecting one renders that remote's own widget in the right-hand content pane — the shell itself renders no tool-specific UI, only navigation and the loading/error states around whichever remote is active.
 
 ## How the deploy is wired
 
