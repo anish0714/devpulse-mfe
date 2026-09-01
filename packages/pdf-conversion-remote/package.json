@@ -12,10 +12,12 @@
     "react-dom": "^19.2.8",
     "pdf-lib": "^1.17.1",
     "mammoth": "^1.8.0",
-    "jspdf": "^2.5.2",
-    "html2canvas": "^1.4.1"
+    "jspdf": "^4.2.1",
+    "html2canvas": "^1.4.1",
+    "dompurify": "^3.2.4"
   },
   "devDependencies": {
+    "@types/dompurify": "^3.0.5",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "css-loader": "^7.1.2",

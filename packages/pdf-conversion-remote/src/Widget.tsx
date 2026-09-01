@@ -3,6 +3,7 @@ import { PDFDocument } from "pdf-lib";
 import mammoth from "mammoth";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
+import DOMPurify from "dompurify";
 import FileDropZone from "./FileDropZone";
 import { styles } from "./styles";
 import { downloadBlob, stripExtension } from "./utils/download";
@@ -76,7 +77,7 @@ async function wordToPdfBytes(file: File): Promise<Uint8Array> {
   const { value: html } = await mammoth.convertToHtml({ arrayBuffer });
 
   const container = document.createElement("div");
-  container.innerHTML = html;
+  container.innerHTML = DOMPurify.sanitize(html);
   Object.assign(container.style, {
     position: "fixed",
     top: "0",
