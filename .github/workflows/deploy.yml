@@ -1,9 +1,7 @@
-name: CI/CD
+name: Deploy
 
 on:
   push:
-    branches: [main]
-  pull_request:
     branches: [main]
   workflow_dispatch:
 
@@ -46,13 +44,11 @@ jobs:
           cp -r packages/notes-remote/dist/. site/remotes/notes/
 
       - name: Upload Pages artifact
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         uses: actions/upload-pages-artifact@v3
         with:
           path: site
 
   deploy:
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     needs: build
     runs-on: ubuntu-latest
     environment:
