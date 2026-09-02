@@ -8,7 +8,7 @@ A toolbox of real, browser-based tools (PDF conversion, PDF editing, developer u
 
 DevPulse is two things at once:
 
-1. **A working set of tools** — convert images/Word docs to PDF, merge PDFs, edit PDFs (add text, highlight, redact, delete pages), fill in real interactive PDF forms, and everyday developer utilities (JSON, Base64/URL, UUID/hash, regex) — entirely client-side. No file or text you touch here is ever uploaded anywhere.
+1. **A working set of tools** — convert images/Word docs to PDF, merge PDFs, edit PDFs (add text, highlight, redact, delete pages), fill in real interactive PDF forms, extract text from images/scanned PDFs via OCR, and everyday developer utilities (JSON, Base64/URL, UUID/hash, regex) — entirely client-side. No file or text you touch here is ever uploaded anywhere.
 2. **A demonstration of production-grade micro-frontend architecture** — each tool is its own React app with its own build, its own deploy, and its own CI check, loaded into a shared shell at runtime rather than bundled together at build time.
 
 ## Highlights
@@ -40,6 +40,12 @@ Detects real, interactive AcroForm fields in a PDF (text, checkboxes, radio grou
 - **Save & download** writes your answers back into the actual PDF form fields (not just a rasterized overlay) — verified by re-parsing the saved file and confirming every field's value round-trips exactly.
 - If a PDF has no real form fields (a scanned or flattened "form" is just lines and boxes, not data), it says so plainly and points to the PDF Manipulation Tool's Text tool instead, rather than pretending to support something it can't.
 
+### OCR (`ocr-remote`)
+Extracts text from images or scanned PDFs using [`tesseract.js`](https://github.com/naptha/tesseract.js) — real optical character recognition running entirely in-browser via WebAssembly:
+- Accepts a JPG/PNG image, or a PDF (each page is rendered via `pdfjs-dist` and OCR'd in turn, with a live "page X of Y" progress indicator).
+- Verified end-to-end: a generated image was OCR'd with byte-for-byte accuracy against the source text, and a multi-field PDF round-tripped through the same page-render-then-recognize pipeline used for the PDF path.
+- English only for now. The OCR engine and language data (a few MB) download from a CDN on first use — a download, not an upload, and cached by the browser afterward; the image, PDF, and extracted text themselves never leave the page.
+
 ### Dev Utils (`dev-utils-remote`)
 Everyday developer tools with **zero runtime dependencies** — everything runs on Web Platform APIs alone (`crypto.randomUUID`, `crypto.subtle.digest`, native `RegExp`, `TextEncoder`/`TextDecoder`):
 - **JSON** — format, minify, and live-validate JSON.
@@ -66,6 +72,8 @@ packages/
                              tester (zero runtime dependencies)
   pdf-form-filler-remote/    exposes ./Widget — detects real AcroForm fields in a
                              PDF and lets you fill them in and save
+  ocr-remote/                exposes ./Widget — extracts text from images or
+                             scanned PDFs via tesseract.js (WebAssembly OCR)
 ```
 
 Each package:
@@ -75,7 +83,7 @@ Each package:
 
 ### How the deploy is wired
 
-Deployed as one GitHub Pages site (`/devpulse-mfe/`) assembled from five independent builds:
+Deployed as one GitHub Pages site (`/devpulse-mfe/`) assembled from six independent builds:
 
 ```
 site/                            <- packages/shell/dist
@@ -83,6 +91,7 @@ site/remotes/pdf-conversion/     <- packages/pdf-conversion-remote/dist
 site/remotes/pdf-manipulation/   <- packages/pdf-manipulation-remote/dist
 site/remotes/dev-utils/          <- packages/dev-utils-remote/dist
 site/remotes/pdf-form-filler/    <- packages/pdf-form-filler-remote/dist
+site/remotes/ocr/                <- packages/ocr-remote/dist
 ```
 
 The shell's production config points at those exact URLs:
@@ -92,15 +101,16 @@ pdfConversion: `pdfConversion@https://anish0714.github.io/devpulse-mfe/remotes/p
 pdfManipulation: `pdfManipulation@https://anish0714.github.io/devpulse-mfe/remotes/pdf-manipulation/remoteEntry.js`
 devUtils: `devUtils@https://anish0714.github.io/devpulse-mfe/remotes/dev-utils/remoteEntry.js`
 pdfFormFiller: `pdfFormFiller@https://anish0714.github.io/devpulse-mfe/remotes/pdf-form-filler/remoteEntry.js`
+ocr: `ocr@https://anish0714.github.io/devpulse-mfe/remotes/ocr/remoteEntry.js`
 ```
 
-In local development each package runs on its own port (shell `:3000`, pdf-conversion `:3003`, pdf-manipulation `:3004`, dev-utils `:3005`, pdf-form-filler `:3006`) and the shell points at `localhost` instead — same mechanism, different URLs.
+In local development each package runs on its own port (shell `:3000`, pdf-conversion `:3003`, pdf-manipulation `:3004`, dev-utils `:3005`, pdf-form-filler `:3006`, ocr `:3007`) and the shell points at `localhost` instead — same mechanism, different URLs.
 
 ### CI/CD
 
 Two separate GitHub Actions workflows, matching the "independently built" story:
 
-- **[ci.yml](.github/workflows/ci.yml)** runs on every pull request targeting `main`. It lints (type-checks) and builds each package in its own matrix job — `shell`, `pdf-conversion-remote`, `pdf-manipulation-remote`, `dev-utils-remote`, `pdf-form-filler-remote` — so one remote's failure doesn't hide another's, and each package's status shows up as its own check on the PR.
+- **[ci.yml](.github/workflows/ci.yml)** runs on every pull request targeting `main`. It lints (type-checks) and builds each package in its own matrix job — `shell`, `pdf-conversion-remote`, `pdf-manipulation-remote`, `dev-utils-remote`, `pdf-form-filler-remote`, `ocr-remote` — so one remote's failure doesn't hide another's, and each package's status shows up as its own check on the PR.
 - **[deploy.yml](.github/workflows/deploy.yml)** runs only on push to `main` (or manual dispatch): it lints and builds everything, assembles the combined site, and deploys to GitHub Pages.
 
 Changes land via a feature branch and a pull request; once `ci.yml` is green, the PR is merged into `main`, which triggers `deploy.yml`.
@@ -112,7 +122,7 @@ npm install
 npm run dev   # starts shell + all remotes together
 ```
 
-Or run a single package: `npm run start --workspace=packages/pdf-form-filler-remote`.
+Or run a single package: `npm run start --workspace=packages/ocr-remote`.
 
 ## Tech stack
 
@@ -120,6 +130,7 @@ Or run a single package: `npm run start --workspace=packages/pdf-form-filler-rem
 - **`pdf-lib`** — creating, merging, and editing PDFs
 - **`pdfjs-dist`** — rendering PDF pages to canvas for the manipulation editor
 - **`mammoth`**, **`html2canvas`**, **`jsPDF`** — Word → PDF conversion
+- **`tesseract.js`** — WebAssembly OCR (text recognition) for images and PDF pages
 - **Web Platform APIs only** (`crypto`, `RegExp`, `TextEncoder`/`TextDecoder`) — `dev-utils-remote` ships with zero runtime dependencies
 - **GitHub Actions** (per-package CI, deploy-on-merge) + **GitHub Pages** hosting
 

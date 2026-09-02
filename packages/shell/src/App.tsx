@@ -8,6 +8,7 @@ const PdfConversionWidget = lazy(() => import("pdfConversion/Widget"));
 const PdfManipulationWidget = lazy(() => import("pdfManipulation/Widget"));
 const DevUtilsWidget = lazy(() => import("devUtils/Widget"));
 const PdfFormFillerWidget = lazy(() => import("pdfFormFiller/Widget"));
+const OcrWidget = lazy(() => import("ocr/Widget"));
 
 const PROD_BASE = "https://anish0714.github.io/devpulse-mfe";
 const isProduction = process.env.NODE_ENV === "production";
@@ -19,7 +20,7 @@ interface IntroSection {
 }
 
 interface RemoteSection {
-  key: "pdfConversion" | "pdfManipulation" | "devUtils" | "pdfFormFiller";
+  key: "pdfConversion" | "pdfManipulation" | "devUtils" | "pdfFormFiller" | "ocr";
   kind: "remote";
   label: string;
   description: string;
@@ -75,6 +76,17 @@ const sections: Section[] = [
       ? `${PROD_BASE}/remotes/pdf-form-filler/remoteEntry.js`
       : "http://localhost:3006/remoteEntry.js",
     Component: PdfFormFillerWidget,
+  },
+  {
+    key: "ocr",
+    kind: "remote",
+    label: "OCR",
+    description: "Extract text from images or scanned PDFs using in-browser text recognition.",
+    packageName: "ocr-remote",
+    url: isProduction
+      ? `${PROD_BASE}/remotes/ocr/remoteEntry.js`
+      : "http://localhost:3007/remoteEntry.js",
+    Component: OcrWidget,
   },
 ];
 
