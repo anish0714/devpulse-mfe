@@ -1,0 +1,29 @@
+.du-tab {
+  transition: border-color 0.12s ease, color 0.12s ease;
+}
+
+.du-tab:hover {
+  border-color: #58a6ff;
+  color: #e6edf3;
+}
+
+.du-tab.du-tab-active:hover {
+  color: #58a6ff;
+}
+
+.du-primary-button:not(:disabled) {
+  transition: background-color 0.12s ease;
+}
+
+.du-primary-button:not(:disabled):hover {
+  background: #388bfd;
+}
+
+.du-secondary-button {
+  transition: border-color 0.12s ease, color 0.12s ease;
+}
+
+.du-secondary-button:hover:not(:disabled) {
+  border-color: #58a6ff;
+  color: #e6edf3;
+}

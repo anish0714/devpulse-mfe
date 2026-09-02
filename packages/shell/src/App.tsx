@@ -6,6 +6,7 @@ import "./hover.css";
 
 const PdfConversionWidget = lazy(() => import("pdfConversion/Widget"));
 const PdfManipulationWidget = lazy(() => import("pdfManipulation/Widget"));
+const DevUtilsWidget = lazy(() => import("devUtils/Widget"));
 
 const PROD_BASE = "https://anish0714.github.io/devpulse-mfe";
 const isProduction = process.env.NODE_ENV === "production";
@@ -17,7 +18,7 @@ interface IntroSection {
 }
 
 interface RemoteSection {
-  key: "pdfConversion" | "pdfManipulation";
+  key: "pdfConversion" | "pdfManipulation" | "devUtils";
   kind: "remote";
   label: string;
   description: string;
@@ -51,6 +52,17 @@ const sections: Section[] = [
       ? `${PROD_BASE}/remotes/pdf-manipulation/remoteEntry.js`
       : "http://localhost:3004/remoteEntry.js",
     Component: PdfManipulationWidget,
+  },
+  {
+    key: "devUtils",
+    kind: "remote",
+    label: "Dev Utils",
+    description: "JSON formatting, Base64/URL encode-decode, UUID/hash generation, and a regex tester.",
+    packageName: "dev-utils-remote",
+    url: isProduction
+      ? `${PROD_BASE}/remotes/dev-utils/remoteEntry.js`
+      : "http://localhost:3005/remoteEntry.js",
+    Component: DevUtilsWidget,
   },
 ];
 

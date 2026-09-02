@@ -1,6 +1,6 @@
 # DevPulse — Micro-Frontend Toolbox
 
-A toolbox of real, browser-based tools (PDF conversion, PDF editing) built as **independently developed, independently deployed** micro-frontends, composed at runtime into one app by a shell host using Webpack 5's [Module Federation](https://webpack.js.org/concepts/module-federation/).
+A toolbox of real, browser-based tools (PDF conversion, PDF editing, developer utilities) built as **independently developed, independently deployed** micro-frontends, composed at runtime into one app by a shell host using Webpack 5's [Module Federation](https://webpack.js.org/concepts/module-federation/).
 
 **Live:** https://anish0714.github.io/devpulse-mfe/
 
@@ -8,13 +8,13 @@ A toolbox of real, browser-based tools (PDF conversion, PDF editing) built as **
 
 DevPulse is two things at once:
 
-1. **A working set of tools** — convert images/Word docs to PDF, merge PDFs, and edit PDFs (add text, highlight, redact, delete pages) — entirely client-side. No file you touch here is ever uploaded anywhere.
+1. **A working set of tools** — convert images/Word docs to PDF, merge PDFs, edit PDFs (add text, highlight, redact, delete pages), and everyday developer utilities (JSON, Base64/URL, UUID/hash, regex) — entirely client-side. No file or text you touch here is ever uploaded anywhere.
 2. **A demonstration of production-grade micro-frontend architecture** — each tool is its own React app with its own build, its own deploy, and its own CI check, loaded into a shared shell at runtime rather than bundled together at build time.
 
 ## Highlights
 
 - **Real utility, not a toy demo** — the tools genuinely convert and edit PDFs, verified against real files, not just UI mockups.
-- **Privacy by construction** — every tool runs 100% in the browser (`pdf-lib`, `pdfjs-dist`, `mammoth`, `jsPDF`), so there's no backend to trust and nothing ever leaves the user's machine.
+- **Privacy by construction** — every tool runs 100% in the browser (`pdf-lib`, `pdfjs-dist`, `mammoth`, `jsPDF`, or nothing but Web Platform APIs), so there's no backend to trust and nothing ever leaves the user's machine.
 - **True runtime composition** — the shell has zero compile-time dependency on any tool's source; it only knows a URL and an exposed module name. A tool can be rebuilt and redeployed on its own schedule without touching the shell or any other tool.
 - **Per-package CI** — each package lints and builds as its own GitHub Actions check, so a failure in one tool doesn't block or hide failures in another.
 - **Trunk-based workflow** — every change ships through a feature branch and PR, merged only once CI is green.
@@ -34,6 +34,13 @@ An in-browser PDF editor built on `pdfjs-dist` (rendering) and `pdf-lib` (export
 - **Delete pages** from the document.
 - **Save & download** a genuinely new, edited PDF — verified by round-tripping saved files back through a PDF parser, not just eyeballed.
 
+### Dev Utils (`dev-utils-remote`)
+Everyday developer tools with **zero runtime dependencies** — everything runs on Web Platform APIs alone (`crypto.randomUUID`, `crypto.subtle.digest`, native `RegExp`, `TextEncoder`/`TextDecoder`):
+- **JSON** — format, minify, and live-validate JSON.
+- **Base64 / URL** — encode/decode either, with correct UTF-8 handling (round-trips non-ASCII text exactly).
+- **UUID / Hash** — generate one or many UUIDs, or hash text with SHA-1/256/384/512.
+- **Regex Tester** — live match highlighting, capture groups, and per-match index in the source string.
+
 ## UI
 
 The shell opens on an **Introduction** page that frames the project as a toolbox to use, not just an architecture demo, with cards linking straight into each tool. Every tool lives in a left-hand sidebar; selecting one renders that remote's own widget in the right-hand content pane. The shell itself renders no tool-specific UI — only navigation, the Introduction, and the loading/error states around whichever remote is active.
@@ -49,6 +56,8 @@ packages/
   pdf-conversion-remote/     exposes ./Widget — images → PDF, Word → PDF, merge PDFs
   pdf-manipulation-remote/   exposes ./Widget — add text, highlight/redact, delete
                              pages, save an edited PDF
+  dev-utils-remote/          exposes ./Widget — JSON, Base64/URL, UUID/hash, regex
+                             tester (zero runtime dependencies)
 ```
 
 Each package:
@@ -58,12 +67,13 @@ Each package:
 
 ### How the deploy is wired
 
-Deployed as one GitHub Pages site (`/devpulse-mfe/`) assembled from three independent builds:
+Deployed as one GitHub Pages site (`/devpulse-mfe/`) assembled from four independent builds:
 
 ```
 site/                            <- packages/shell/dist
 site/remotes/pdf-conversion/     <- packages/pdf-conversion-remote/dist
 site/remotes/pdf-manipulation/   <- packages/pdf-manipulation-remote/dist
+site/remotes/dev-utils/          <- packages/dev-utils-remote/dist
 ```
 
 The shell's production config points at those exact URLs:
@@ -71,15 +81,16 @@ The shell's production config points at those exact URLs:
 ```js
 pdfConversion: `pdfConversion@https://anish0714.github.io/devpulse-mfe/remotes/pdf-conversion/remoteEntry.js`
 pdfManipulation: `pdfManipulation@https://anish0714.github.io/devpulse-mfe/remotes/pdf-manipulation/remoteEntry.js`
+devUtils: `devUtils@https://anish0714.github.io/devpulse-mfe/remotes/dev-utils/remoteEntry.js`
 ```
 
-In local development each package runs on its own port (shell `:3000`, pdf-conversion `:3003`, pdf-manipulation `:3004`) and the shell points at `localhost` instead — same mechanism, different URLs.
+In local development each package runs on its own port (shell `:3000`, pdf-conversion `:3003`, pdf-manipulation `:3004`, dev-utils `:3005`) and the shell points at `localhost` instead — same mechanism, different URLs.
 
 ### CI/CD
 
 Two separate GitHub Actions workflows, matching the "independently built" story:
 
-- **[ci.yml](.github/workflows/ci.yml)** runs on every pull request targeting `main`. It lints (type-checks) and builds each package in its own matrix job — `shell`, `pdf-conversion-remote`, `pdf-manipulation-remote` — so one remote's failure doesn't hide another's, and each package's status shows up as its own check on the PR.
+- **[ci.yml](.github/workflows/ci.yml)** runs on every pull request targeting `main`. It lints (type-checks) and builds each package in its own matrix job — `shell`, `pdf-conversion-remote`, `pdf-manipulation-remote`, `dev-utils-remote` — so one remote's failure doesn't hide another's, and each package's status shows up as its own check on the PR.
 - **[deploy.yml](.github/workflows/deploy.yml)** runs only on push to `main` (or manual dispatch): it lints and builds everything, assembles the combined site, and deploys to GitHub Pages.
 
 Changes land via a feature branch and a pull request; once `ci.yml` is green, the PR is merged into `main`, which triggers `deploy.yml`.
@@ -88,10 +99,10 @@ Changes land via a feature branch and a pull request; once `ci.yml` is green, th
 
 ```bash
 npm install
-npm run dev   # starts shell + both remotes together
+npm run dev   # starts shell + all remotes together
 ```
 
-Or run a single package: `npm run start --workspace=packages/pdf-manipulation-remote`.
+Or run a single package: `npm run start --workspace=packages/dev-utils-remote`.
 
 ## Tech stack
 
@@ -99,6 +110,7 @@ Or run a single package: `npm run start --workspace=packages/pdf-manipulation-re
 - **`pdf-lib`** — creating, merging, and editing PDFs
 - **`pdfjs-dist`** — rendering PDF pages to canvas for the manipulation editor
 - **`mammoth`**, **`html2canvas`**, **`jsPDF`** — Word → PDF conversion
+- **Web Platform APIs only** (`crypto`, `RegExp`, `TextEncoder`/`TextDecoder`) — `dev-utils-remote` ships with zero runtime dependencies
 - **GitHub Actions** (per-package CI, deploy-on-merge) + **GitHub Pages** hosting
 
 ## What this project demonstrates
