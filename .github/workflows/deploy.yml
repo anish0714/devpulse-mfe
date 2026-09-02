@@ -38,11 +38,10 @@ jobs:
 
       - name: Assemble combined site
         run: |
-          mkdir -p site/remotes/pdf-conversion site/remotes/pdf-manipulation site/remotes/dev-utils
+          mkdir -p site/remotes/pdf-conversion site/remotes/pdf-manipulation
           cp -r packages/shell/dist/. site/
           cp -r packages/pdf-conversion-remote/dist/. site/remotes/pdf-conversion/
           cp -r packages/pdf-manipulation-remote/dist/. site/remotes/pdf-manipulation/
-          cp -r packages/dev-utils-remote/dist/. site/remotes/dev-utils/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
