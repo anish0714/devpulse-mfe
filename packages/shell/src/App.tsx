@@ -63,11 +63,34 @@ export default function App() {
   return (
     <div style={styles.page}>
       <header style={styles.header}>
-        <h1 style={styles.title}>DevPulse</h1>
-        <p style={styles.subtitle}>
-          A toolbox of browser-based tools, each one a separately built,
-          separately deployed micro-frontend.
-        </p>
+        <div>
+          <h1 style={styles.title}>DevPulse</h1>
+          <p style={styles.subtitle}>
+            A toolbox of browser-based tools, each one a separately built,
+            separately deployed micro-frontend.
+          </p>
+        </div>
+        <a
+          href="https://anish0714.github.io/portfolio-website/"
+          className="dp-portfolio-link"
+          style={styles.portfolioLink}
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M7 17 17 7" />
+            <path d="M7 7h10v10" />
+          </svg>
+          Portfolio
+        </a>
       </header>
 
       <div style={styles.body}>
@@ -100,11 +123,6 @@ export default function App() {
             />
           ) : (
             <>
-              <div style={styles.sourceBadge}>
-                <span style={styles.sourceBadgeDot} />
-                Loading <strong>{current.packageName}</strong> from{" "}
-                <code style={styles.code}>{current.url}</code>
-              </div>
               <RemoteErrorBoundary remoteName={current.packageName}>
                 <Suspense fallback={<div style={styles.loading}>Loading {current.label}…</div>}>
                   <current.Component />
@@ -114,24 +132,6 @@ export default function App() {
           )}
         </main>
       </div>
-
-      <footer style={styles.footer}>
-        <a
-          href="https://github.com/anish0714/devpulse-mfe"
-          className="dp-footer-link"
-          style={styles.link}
-        >
-          View source
-        </a>
-        {" · "}
-        <a
-          href="https://anish0714.github.io/portfolio-website/"
-          className="dp-footer-link"
-          style={styles.link}
-        >
-          Back to portfolio
-        </a>
-      </footer>
     </div>
   );
 }
@@ -147,8 +147,27 @@ const styles: Record<string, CSSProperties> = {
     flexDirection: "column",
   },
   header: {
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    gap: 16,
     padding: "28px 32px 20px",
     borderBottom: "1px solid #21262d",
+  },
+  portfolioLink: {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 6,
+    flexShrink: 0,
+    fontSize: 13,
+    fontWeight: 600,
+    color: "#58a6ff",
+    background: "#161b22",
+    border: "1px solid #30363d",
+    borderRadius: 20,
+    padding: "6px 14px",
+    textDecoration: "none",
+    whiteSpace: "nowrap",
   },
   title: {
     fontSize: 24,
@@ -198,43 +217,9 @@ const styles: Record<string, CSSProperties> = {
     flex: 1,
     padding: "32px 40px",
   },
-  sourceBadge: {
-    display: "inline-flex",
-    alignItems: "center",
-    gap: 6,
-    fontSize: 11,
-    color: "#8b949e",
-    fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-    background: "#161b22",
-    border: "1px solid #30363d",
-    borderRadius: 20,
-    padding: "5px 12px",
-    marginBottom: 20,
-  },
-  sourceBadgeDot: {
-    width: 6,
-    height: 6,
-    borderRadius: "50%",
-    background: "#3fb950",
-    flexShrink: 0,
-  },
-  code: {
-    color: "#8b949e",
-  },
   loading: {
     fontSize: 13,
     color: "#8b949e",
     padding: 20,
-  },
-  footer: {
-    fontSize: 12,
-    color: "#6e7681",
-    textAlign: "center",
-    padding: "16px 24px",
-    borderTop: "1px solid #21262d",
-  },
-  link: {
-    color: "#58a6ff",
-    textDecoration: "none",
   },
 };

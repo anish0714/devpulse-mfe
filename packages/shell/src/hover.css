@@ -20,6 +20,11 @@
   background: #1c2129;
 }
 
-.dp-footer-link:hover {
-  text-decoration: underline;
+.dp-portfolio-link {
+  transition: border-color 0.12s ease, background-color 0.12s ease;
+}
+
+.dp-portfolio-link:hover {
+  border-color: #58a6ff;
+  background: #1c2129;
 }
