@@ -3,20 +3,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { ModuleFederationPlugin } = require("webpack").container;
 const deps = require("./package.json").dependencies;
 
-const PROD_BASE = "https://anish0714.github.io/devpulse-mfe";
-
 module.exports = (_env, argv) => {
   const isProduction = argv.mode === "production";
-
-  const pdfConversionUrl = isProduction
-    ? `${PROD_BASE}/remotes/pdf-conversion/remoteEntry.js`
-    : "http://localhost:3003/remoteEntry.js";
-  const pdfManipulationUrl = isProduction
-    ? `${PROD_BASE}/remotes/pdf-manipulation/remoteEntry.js`
-    : "http://localhost:3004/remoteEntry.js";
-  const devUtilsUrl = isProduction
-    ? `${PROD_BASE}/remotes/dev-utils/remoteEntry.js`
-    : "http://localhost:3005/remoteEntry.js";
 
   return {
     entry: "./src/index.ts",
@@ -37,16 +25,16 @@ module.exports = (_env, argv) => {
       ],
     },
     devServer: {
-      port: 3000,
+      port: 3005,
       historyApiFallback: true,
+      headers: { "Access-Control-Allow-Origin": "*" },
     },
     plugins: [
       new ModuleFederationPlugin({
-        name: "shell",
-        remotes: {
-          pdfConversion: `pdfConversion@${pdfConversionUrl}`,
-          pdfManipulation: `pdfManipulation@${pdfManipulationUrl}`,
-          devUtils: `devUtils@${devUtilsUrl}`,
+        name: "devUtils",
+        filename: "remoteEntry.js",
+        exposes: {
+          "./Widget": "./src/Widget",
         },
         shared: {
           react: { singleton: true, requiredVersion: deps.react },

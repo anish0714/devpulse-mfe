@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        package: [shell, pdf-conversion-remote, pdf-manipulation-remote]
+        package: [shell, pdf-conversion-remote, pdf-manipulation-remote, dev-utils-remote]
     steps:
       - name: Checkout
         uses: actions/checkout@v4

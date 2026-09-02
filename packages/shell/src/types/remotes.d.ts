@@ -9,3 +9,9 @@ declare module "pdfManipulation/Widget" {
   const Widget: ComponentType;
   export default Widget;
 }
+
+declare module "devUtils/Widget" {
+  import type { ComponentType } from "react";
+  const Widget: ComponentType;
+  export default Widget;
+}
