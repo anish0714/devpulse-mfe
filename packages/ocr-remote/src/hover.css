@@ -1,0 +1,24 @@
+.ocr-dropzone {
+  transition: border-color 0.12s ease;
+}
+
+.ocr-dropzone:hover {
+  border-color: #58a6ff;
+}
+
+.ocr-primary-button:not(:disabled) {
+  transition: background-color 0.12s ease;
+}
+
+.ocr-primary-button:not(:disabled):hover {
+  background: #388bfd;
+}
+
+.ocr-secondary-button {
+  transition: border-color 0.12s ease, color 0.12s ease;
+}
+
+.ocr-secondary-button:hover:not(:disabled) {
+  border-color: #58a6ff;
+  color: #e6edf3;
+}
