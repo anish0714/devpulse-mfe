@@ -1,0 +1,32 @@
+.pff-dropzone {
+  transition: border-color 0.12s ease;
+}
+
+.pff-dropzone:hover {
+  border-color: #58a6ff;
+}
+
+.pff-nav-button {
+  transition: border-color 0.12s ease;
+}
+
+.pff-nav-button:hover:not(:disabled) {
+  border-color: #58a6ff;
+}
+
+.pff-primary-button:not(:disabled) {
+  transition: background-color 0.12s ease;
+}
+
+.pff-primary-button:not(:disabled):hover {
+  background: #388bfd;
+}
+
+.pff-secondary-button {
+  transition: border-color 0.12s ease, color 0.12s ease;
+}
+
+.pff-secondary-button:hover:not(:disabled) {
+  border-color: #58a6ff;
+  color: #e6edf3;
+}

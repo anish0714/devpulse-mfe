@@ -7,6 +7,7 @@ import "./hover.css";
 const PdfConversionWidget = lazy(() => import("pdfConversion/Widget"));
 const PdfManipulationWidget = lazy(() => import("pdfManipulation/Widget"));
 const DevUtilsWidget = lazy(() => import("devUtils/Widget"));
+const PdfFormFillerWidget = lazy(() => import("pdfFormFiller/Widget"));
 
 const PROD_BASE = "https://anish0714.github.io/devpulse-mfe";
 const isProduction = process.env.NODE_ENV === "production";
@@ -18,7 +19,7 @@ interface IntroSection {
 }
 
 interface RemoteSection {
-  key: "pdfConversion" | "pdfManipulation" | "devUtils";
+  key: "pdfConversion" | "pdfManipulation" | "devUtils" | "pdfFormFiller";
   kind: "remote";
   label: string;
   description: string;
@@ -63,6 +64,17 @@ const sections: Section[] = [
       ? `${PROD_BASE}/remotes/dev-utils/remoteEntry.js`
       : "http://localhost:3005/remoteEntry.js",
     Component: DevUtilsWidget,
+  },
+  {
+    key: "pdfFormFiller",
+    kind: "remote",
+    label: "PDF Form Filler",
+    description: "Detects real, interactive form fields in a PDF and lets you fill them in and save.",
+    packageName: "pdf-form-filler-remote",
+    url: isProduction
+      ? `${PROD_BASE}/remotes/pdf-form-filler/remoteEntry.js`
+      : "http://localhost:3006/remoteEntry.js",
+    Component: PdfFormFillerWidget,
   },
 ];
 
