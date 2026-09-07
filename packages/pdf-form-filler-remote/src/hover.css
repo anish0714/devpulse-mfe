@@ -3,7 +3,7 @@
 }
 
 .pff-dropzone:hover {
-  border-color: #58a6ff;
+  border-color: #2dd4bf;
 }
 
 .pff-nav-button {
@@ -11,7 +11,7 @@
 }
 
 .pff-nav-button:hover:not(:disabled) {
-  border-color: #58a6ff;
+  border-color: #2dd4bf;
 }
 
 .pff-primary-button:not(:disabled) {
@@ -19,7 +19,7 @@
 }
 
 .pff-primary-button:not(:disabled):hover {
-  background: #388bfd;
+  background: #14b8a6;
 }
 
 .pff-secondary-button {
@@ -27,6 +27,6 @@
 }
 
 .pff-secondary-button:hover:not(:disabled) {
-  border-color: #58a6ff;
-  color: #e6edf3;
+  border-color: #2dd4bf;
+  color: #e7f2ec;
 }

@@ -227,7 +227,7 @@ export default function Widget() {
                           checked={values[field.name] as boolean}
                           onChange={(e) => setValue(field.name, e.target.checked)}
                         />
-                        <span style={{ fontSize: 13, color: "#8b949e" }}>
+                        <span style={{ fontSize: 13, color: "#839a8d" }}>
                           {values[field.name] ? "Checked" : "Unchecked"}
                         </span>
                       </div>

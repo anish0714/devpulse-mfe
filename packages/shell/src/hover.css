@@ -3,12 +3,12 @@
 }
 
 .dp-nav-item:hover {
-  background: rgba(139, 148, 158, 0.08);
-  color: #e6edf3;
+  background: rgba(131, 154, 141, 0.08);
+  color: #e7f2ec;
 }
 
 .dp-nav-item.dp-nav-item-active:hover {
-  background: rgba(88, 166, 255, 0.18);
+  background: rgba(45, 212, 191, 0.18);
 }
 
 .dp-tool-card {
@@ -16,8 +16,8 @@
 }
 
 .dp-tool-card:hover {
-  border-color: #58a6ff;
-  background: #1c2129;
+  border-color: #2dd4bf;
+  background: #16201b;
 }
 
 .dp-portfolio-link {
@@ -25,6 +25,6 @@
 }
 
 .dp-portfolio-link:hover {
-  border-color: #58a6ff;
-  background: #1c2129;
+  border-color: #2dd4bf;
+  background: #16201b;
 }

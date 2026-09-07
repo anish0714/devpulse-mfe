@@ -8,7 +8,7 @@ export default function App() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "#0d1117",
+        background: "#080b09",
         padding: 24,
       }}
     >
@@ -17,7 +17,7 @@ export default function App() {
           style={{
             fontFamily: "'JetBrains Mono', ui-monospace, monospace",
             fontSize: 12,
-            color: "#8b949e",
+            color: "#839a8d",
             marginBottom: 12,
             maxWidth: 480,
           }}
@@ -26,7 +26,7 @@ export default function App() {
           its own deployed URL. It normally renders inside the{" "}
           <a
             href="https://anish0714.github.io/devpulse-mfe/"
-            style={{ color: "#58a6ff" }}
+            style={{ color: "#2dd4bf" }}
           >
             DevPulse shell
           </a>

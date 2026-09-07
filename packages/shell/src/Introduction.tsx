@@ -60,13 +60,13 @@ const styles: Record<string, CSSProperties> = {
   lead: {
     fontSize: 15,
     lineHeight: 1.7,
-    color: "#e6edf3",
+    color: "#e7f2ec",
     margin: "0 0 16px 0",
   },
   paragraph: {
     fontSize: 14,
     lineHeight: 1.7,
-    color: "#8b949e",
+    color: "#839a8d",
     margin: "0 0 32px 0",
   },
   subheading: {
@@ -74,7 +74,7 @@ const styles: Record<string, CSSProperties> = {
     fontWeight: 700,
     textTransform: "uppercase",
     letterSpacing: 0.5,
-    color: "#8b949e",
+    color: "#839a8d",
     margin: "0 0 12px 0",
   },
   cards: {
@@ -88,20 +88,20 @@ const styles: Record<string, CSSProperties> = {
     alignItems: "flex-start",
     gap: 4,
     textAlign: "left",
-    background: "#161b22",
-    border: "1px solid #30363d",
-    borderRadius: 10,
+    background: "#0f1512",
+    border: "1px solid #2c3d33",
+    borderRadius: 3,
     padding: "14px 16px",
     cursor: "pointer",
   },
   cardTitle: {
     fontSize: 14,
     fontWeight: 700,
-    color: "#58a6ff",
+    color: "#2dd4bf",
   },
   cardDescription: {
     fontSize: 13,
-    color: "#8b949e",
+    color: "#839a8d",
     lineHeight: 1.5,
   },
 };

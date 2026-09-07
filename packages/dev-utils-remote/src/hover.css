@@ -3,12 +3,12 @@
 }
 
 .du-tab:hover {
-  border-color: #58a6ff;
-  color: #e6edf3;
+  border-color: #2dd4bf;
+  color: #e7f2ec;
 }
 
 .du-tab.du-tab-active:hover {
-  color: #58a6ff;
+  color: #2dd4bf;
 }
 
 .du-primary-button:not(:disabled) {
@@ -16,7 +16,7 @@
 }
 
 .du-primary-button:not(:disabled):hover {
-  background: #388bfd;
+  background: #14b8a6;
 }
 
 .du-secondary-button {
@@ -24,6 +24,6 @@
 }
 
 .du-secondary-button:hover:not(:disabled) {
-  border-color: #58a6ff;
-  color: #e6edf3;
+  border-color: #2dd4bf;
+  color: #e7f2ec;
 }

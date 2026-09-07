@@ -27,9 +27,9 @@ export default class RemoteErrorBoundary extends Component<Props, State> {
         <div
           style={{
             padding: 20,
-            border: "1px dashed #f85149",
-            borderRadius: 10,
-            color: "#f85149",
+            border: "1px dashed #ff6b6b",
+            borderRadius: 3,
+            color: "#ff6b6b",
             fontSize: 13,
             maxWidth: 420,
           }}

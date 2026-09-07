@@ -3,12 +3,12 @@
 }
 
 .pc-tab:hover {
-  border-color: #58a6ff;
-  color: #e6edf3;
+  border-color: #2dd4bf;
+  color: #e7f2ec;
 }
 
 .pc-tab.pc-tab-active:hover {
-  color: #58a6ff;
+  color: #2dd4bf;
 }
 
 .pc-dropzone {
@@ -16,7 +16,7 @@
 }
 
 .pc-dropzone:hover {
-  border-color: #58a6ff;
+  border-color: #2dd4bf;
 }
 
 .pc-primary-button:not(:disabled) {
@@ -24,9 +24,9 @@
 }
 
 .pc-primary-button:not(:disabled):hover {
-  background: #388bfd;
+  background: #14b8a6;
 }
 
 .pc-remove-button:hover:not(:disabled) {
-  color: #e6edf3;
+  color: #e7f2ec;
 }

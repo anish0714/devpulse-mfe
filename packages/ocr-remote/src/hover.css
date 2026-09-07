@@ -3,7 +3,7 @@
 }
 
 .ocr-dropzone:hover {
-  border-color: #58a6ff;
+  border-color: #2dd4bf;
 }
 
 .ocr-primary-button:not(:disabled) {
@@ -11,7 +11,7 @@
 }
 
 .ocr-primary-button:not(:disabled):hover {
-  background: #388bfd;
+  background: #14b8a6;
 }
 
 .ocr-secondary-button {
@@ -19,6 +19,6 @@
 }
 
 .ocr-secondary-button:hover:not(:disabled) {
-  border-color: #58a6ff;
-  color: #e6edf3;
+  border-color: #2dd4bf;
+  color: #e7f2ec;
 }
