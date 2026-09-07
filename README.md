@@ -57,6 +57,8 @@ Everyday developer tools with **zero runtime dependencies** — everything runs 
 
 The shell opens on an **Introduction** page that frames the project as a toolbox to use, not just an architecture demo, with cards linking straight into each tool. Every tool lives in a left-hand sidebar; selecting one renders that remote's own widget in the right-hand content pane. The shell itself renders no tool-specific UI — only navigation, the Introduction, and the loading/error states around whichever remote is active.
 
+Visually, DevPulse leans into a dark "terminal" look — a near-black background, a monospace typeface throughout, a teal accent, and sharp (largely un-rounded) corners — deliberately distinct from the rest of this author's portfolio rather than reusing its palette.
+
 ## Architecture
 
 This is an npm-workspaces monorepo — one repo for convenience, but each package still builds independently and is wired together only via runtime URLs, the same way it would work across separate repos:

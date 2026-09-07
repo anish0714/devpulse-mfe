@@ -67,7 +67,7 @@ export default function UuidHash() {
         />
       )}
 
-      <div style={{ borderTop: "1px solid #21262d", margin: "18px 0" }} />
+      <div style={{ borderTop: "1px solid #1e2b23", margin: "18px 0" }} />
 
       <label style={styles.label}>Hash Generator</label>
       <textarea

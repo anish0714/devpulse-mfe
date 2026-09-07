@@ -3,12 +3,12 @@ import type { CSSProperties } from "react";
 export const styles: Record<string, CSSProperties> = {
   card: {
     fontFamily:
-      "-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif",
-    background: "#161b22",
-    border: "1px solid #30363d",
-    borderRadius: 10,
+      "'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
+    background: "#0f1512",
+    border: "1px solid #2c3d33",
+    borderRadius: 3,
     padding: 20,
-    color: "#e6edf3",
+    color: "#e7f2ec",
     width: 440,
   },
   title: {
@@ -24,33 +24,33 @@ export const styles: Record<string, CSSProperties> = {
   },
   tab: {
     background: "transparent",
-    border: "1px solid #30363d",
-    color: "#8b949e",
-    borderRadius: 6,
+    border: "1px solid #2c3d33",
+    color: "#839a8d",
+    borderRadius: 2,
     padding: "5px 12px",
     fontSize: 12,
     fontWeight: 600,
     cursor: "pointer",
   },
   tabActive: {
-    border: "1px solid #58a6ff",
-    color: "#58a6ff",
+    border: "1px solid #2dd4bf",
+    color: "#2dd4bf",
   },
   dropZone: {
-    border: "1px dashed #30363d",
-    borderRadius: 8,
+    border: "1px dashed #2c3d33",
+    borderRadius: 2,
     padding: "24px 16px",
     textAlign: "center",
     cursor: "pointer",
-    background: "#0d1117",
+    background: "#080b09",
   },
   dropZoneActive: {
-    border: "1px dashed #58a6ff",
-    background: "#0d1117",
+    border: "1px dashed #2dd4bf",
+    background: "#080b09",
   },
   dropZoneText: {
     fontSize: 12,
-    color: "#8b949e",
+    color: "#839a8d",
     margin: 0,
   },
   fileList: {
@@ -67,9 +67,9 @@ export const styles: Record<string, CSSProperties> = {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    background: "#0d1117",
-    border: "1px solid #21262d",
-    borderRadius: 6,
+    background: "#080b09",
+    border: "1px solid #1e2b23",
+    borderRadius: 2,
     padding: "6px 10px",
     fontSize: 12,
     gap: 8,
@@ -82,7 +82,7 @@ export const styles: Record<string, CSSProperties> = {
   removeButton: {
     background: "transparent",
     border: "none",
-    color: "#6e7681",
+    color: "#55685d",
     fontSize: 16,
     lineHeight: 1,
     cursor: "pointer",
@@ -90,9 +90,9 @@ export const styles: Record<string, CSSProperties> = {
     flexShrink: 0,
   },
   primaryButton: {
-    background: "#1f6feb",
+    background: "#0f766e",
     border: "none",
-    borderRadius: 6,
+    borderRadius: 2,
     padding: "8px 16px",
     color: "#fff",
     fontSize: 13,
@@ -100,18 +100,18 @@ export const styles: Record<string, CSSProperties> = {
     cursor: "pointer",
   },
   primaryButtonDisabled: {
-    background: "#21262d",
-    color: "#6e7681",
+    background: "#1e2b23",
+    color: "#55685d",
     cursor: "not-allowed",
   },
   hint: {
     fontSize: 11,
-    color: "#6e7681",
+    color: "#55685d",
     margin: "10px 0 0 0",
   },
   error: {
     fontSize: 12,
-    color: "#f85149",
+    color: "#ff6b6b",
     margin: "10px 0 0 0",
   },
   success: {
@@ -122,7 +122,7 @@ export const styles: Record<string, CSSProperties> = {
   footer: {
     marginTop: 16,
     fontSize: 11,
-    color: "#6e7681",
+    color: "#55685d",
     fontFamily: "'JetBrains Mono', ui-monospace, monospace",
   },
 };

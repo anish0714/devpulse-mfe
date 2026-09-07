@@ -342,7 +342,7 @@ export default function Widget() {
           </div>
 
           <div style={styles.toolbar}>
-            <label style={{ fontSize: 12, color: "#8b949e", display: "flex", alignItems: "center", gap: 4 }}>
+            <label style={{ fontSize: 12, color: "#839a8d", display: "flex", alignItems: "center", gap: 4 }}>
               Size
               <input
                 type="number"
@@ -353,7 +353,7 @@ export default function Widget() {
                 style={{ width: 48 }}
               />
             </label>
-            <label style={{ fontSize: 12, color: "#8b949e", display: "flex", alignItems: "center", gap: 4 }}>
+            <label style={{ fontSize: 12, color: "#839a8d", display: "flex", alignItems: "center", gap: 4 }}>
               Color
               <input type="color" value={color} onChange={(e) => setColor(e.target.value)} />
             </label>
@@ -481,7 +481,7 @@ export default function Widget() {
                     top: dragRect.y,
                     width: dragRect.width,
                     height: dragRect.height,
-                    border: "1px dashed #1f6feb",
+                    border: "1px dashed #0f766e",
                     background:
                       tool === "redact" ? "rgba(0,0,0,0.3)" : "rgba(255, 235, 51, 0.3)",
                   }}

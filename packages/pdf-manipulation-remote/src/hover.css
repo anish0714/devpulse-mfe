@@ -3,17 +3,17 @@
 }
 
 .pm-tool-button:hover:not(:disabled) {
-  border-color: #58a6ff;
-  color: #e6edf3;
+  border-color: #2dd4bf;
+  color: #e7f2ec;
 }
 
 .pm-tool-button.pm-tool-button-active:hover:not(:disabled) {
-  color: #58a6ff;
+  color: #2dd4bf;
 }
 
 .pm-tool-button.pm-tool-button-danger:hover:not(:disabled) {
-  border-color: #f85149;
-  color: #f85149;
+  border-color: #ff6b6b;
+  color: #ff6b6b;
 }
 
 .pm-nav-button {
@@ -21,7 +21,7 @@
 }
 
 .pm-nav-button:hover:not(:disabled) {
-  border-color: #58a6ff;
+  border-color: #2dd4bf;
 }
 
 .pm-dropzone {
@@ -29,7 +29,7 @@
 }
 
 .pm-dropzone:hover {
-  border-color: #58a6ff;
+  border-color: #2dd4bf;
 }
 
 .pm-primary-button:not(:disabled) {
@@ -37,7 +37,7 @@
 }
 
 .pm-primary-button:not(:disabled):hover {
-  background: #388bfd;
+  background: #14b8a6;
 }
 
 .pm-annotation-remove {

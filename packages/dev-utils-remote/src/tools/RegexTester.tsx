@@ -52,7 +52,7 @@ export default function RegexTester() {
     <div>
       <label style={styles.label}>Pattern</label>
       <div style={styles.row}>
-        <span style={{ color: "#6e7681", fontFamily: "'JetBrains Mono', ui-monospace, monospace" }}>
+        <span style={{ color: "#55685d", fontFamily: "'JetBrains Mono', ui-monospace, monospace" }}>
           /
         </span>
         <input
@@ -62,7 +62,7 @@ export default function RegexTester() {
           style={{ ...styles.input, flex: 1 }}
           spellCheck={false}
         />
-        <span style={{ color: "#6e7681", fontFamily: "'JetBrains Mono', ui-monospace, monospace" }}>
+        <span style={{ color: "#55685d", fontFamily: "'JetBrains Mono', ui-monospace, monospace" }}>
           /
         </span>
         <input

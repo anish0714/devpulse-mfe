@@ -175,10 +175,10 @@ export default function App() {
 const styles: Record<string, CSSProperties> = {
   page: {
     minHeight: "100vh",
-    background: "#0d1117",
-    color: "#e6edf3",
+    background: "#080b09",
+    color: "#e7f2ec",
     fontFamily:
-      "-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif",
+      "'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
     display: "flex",
     flexDirection: "column",
   },
@@ -188,7 +188,7 @@ const styles: Record<string, CSSProperties> = {
     justifyContent: "space-between",
     gap: 16,
     padding: "28px 32px 20px",
-    borderBottom: "1px solid #21262d",
+    borderBottom: "1px solid #1e2b23",
   },
   portfolioLink: {
     display: "inline-flex",
@@ -197,10 +197,10 @@ const styles: Record<string, CSSProperties> = {
     flexShrink: 0,
     fontSize: 13,
     fontWeight: 600,
-    color: "#58a6ff",
-    background: "#161b22",
-    border: "1px solid #30363d",
-    borderRadius: 20,
+    color: "#2dd4bf",
+    background: "#0f1512",
+    border: "1px solid #2c3d33",
+    borderRadius: 3,
     padding: "6px 14px",
     textDecoration: "none",
     whiteSpace: "nowrap",
@@ -213,7 +213,7 @@ const styles: Record<string, CSSProperties> = {
   subtitle: {
     fontSize: 13,
     lineHeight: 1.5,
-    color: "#8b949e",
+    color: "#839a8d",
     margin: 0,
   },
   body: {
@@ -224,7 +224,7 @@ const styles: Record<string, CSSProperties> = {
   sidebar: {
     width: 220,
     flexShrink: 0,
-    borderRight: "1px solid #21262d",
+    borderRight: "1px solid #1e2b23",
     padding: "20px 12px",
   },
   nav: {
@@ -237,17 +237,17 @@ const styles: Record<string, CSSProperties> = {
     background: "transparent",
     border: "none",
     borderLeft: "3px solid transparent",
-    borderRadius: 6,
+    borderRadius: 2,
     padding: "10px 14px 10px 11px",
     fontSize: 14,
     fontWeight: 600,
-    color: "#8b949e",
+    color: "#839a8d",
     cursor: "pointer",
   },
   navItemActive: {
-    background: "rgba(88, 166, 255, 0.12)",
-    borderLeft: "3px solid #58a6ff",
-    color: "#58a6ff",
+    background: "rgba(45, 212, 191, 0.12)",
+    borderLeft: "3px solid #2dd4bf",
+    color: "#2dd4bf",
   },
   content: {
     flex: 1,
@@ -255,7 +255,7 @@ const styles: Record<string, CSSProperties> = {
   },
   loading: {
     fontSize: 13,
-    color: "#8b949e",
+    color: "#839a8d",
     padding: 20,
   },
 };
